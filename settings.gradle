@@ -10,8 +10,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        flatDir {
-            dirs 'libs'
+        maven {
+            url "replace_this_local_repository_file_path"
         }
     }
 }
