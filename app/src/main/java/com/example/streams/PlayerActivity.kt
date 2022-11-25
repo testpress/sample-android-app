@@ -31,5 +31,6 @@ class PlayerActivity : AppCompatActivity() {
                 player.setPlayWhenReady(true)
             }
         });
+        playerFragment.enableAutoFullScreenOnRotate()
     }
 }
