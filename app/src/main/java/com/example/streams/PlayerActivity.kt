@@ -27,7 +27,7 @@ class PlayerActivity : AppCompatActivity() {
                     .setAccessToken(accessToken)
                     .setOrgCode(orgCode)
                     .build()
-                player.load(parameters)
+                playerFragment.load(parameters)
                 player.setPlayWhenReady(true)
             }
         });
