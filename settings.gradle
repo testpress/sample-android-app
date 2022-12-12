@@ -11,7 +11,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven {
-            url "https://github.com/testpress/maven/raw/main/repo"
+             url "https://github.com/testpress/maven/raw/main/repo"
         }
     }
 }

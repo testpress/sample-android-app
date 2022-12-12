@@ -9,8 +9,6 @@ import com.tpstream.player.TpStreamPlayerFragment
 
 class PlayerActivity : AppCompatActivity() {
     lateinit var playerFragment: TpStreamPlayerFragment;
-    lateinit var player: TpStreamPlayer;
-    private val TAG = "PlayerActivity"
     private val accessToken = "bbf23112-0c14-4519-a848-73c95cb024ac"
     private val videoId = "E44ulfSWhYx"
     private val orgCode = "drm"
@@ -26,9 +24,9 @@ class PlayerActivity : AppCompatActivity() {
                     .setVideoId(videoId)
                     .setAccessToken(accessToken)
                     .setOrgCode(orgCode)
+                    .setAutoPlay(true)
                     .build()
                 playerFragment.load(parameters)
-                player.setPlayWhenReady(true)
             }
         });
         playerFragment.enableAutoFullScreenOnRotate()
