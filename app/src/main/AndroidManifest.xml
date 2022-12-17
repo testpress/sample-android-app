@@ -15,6 +15,7 @@
         <activity
             android:name=".PlayerActivity"
             android:exported="false"
+            android:configChanges="orientation|screenSize|layoutDirection"
             android:label="@string/title_activity_player"
             android:theme="@style/Theme.Streams.NoActionBar">
             <meta-data
