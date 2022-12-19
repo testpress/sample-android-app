@@ -1,5 +1,6 @@
 package com.example.streams
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ class PlayerActivity : AppCompatActivity() {
     private val accessToken = "bbf23112-0c14-4519-a848-73c95cb024ac"
     private val videoId = "E44ulfSWhYx"
     private val orgCode = "drm"
+    lateinit var player: TpStreamPlayer
     val TAG = "PlayerActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,14 +21,19 @@ class PlayerActivity : AppCompatActivity() {
         playerFragment =
             supportFragmentManager.findFragmentById(R.id.tpstream_player_fragment) as TpStreamPlayerFragment
         playerFragment.setOnInitializationListener(object: InitializationListener {
+            val sharedPreference =  getSharedPreferences("player", Context.MODE_PRIVATE)
+            val pausedAt = sharedPreference.getInt("pausedAt", 0)
+
             override fun onInitializationSuccess(player: TpStreamPlayer) {
                 val parameters = TpInitParams.Builder()
                     .setVideoId(videoId)
                     .setAccessToken(accessToken)
                     .setOrgCode(orgCode)
                     .setAutoPlay(true)
+                    .startAt(pausedAt)
                     .build()
                 playerFragment.load(parameters)
+                this@PlayerActivity.player = player
             }
         });
         playerFragment.enableAutoFullScreenOnRotate()
@@ -98,6 +105,18 @@ class PlayerActivity : AppCompatActivity() {
                 Log.d(TAG, "onVideoSizeChanged: ")
             }
 
+        }
+    }
+
+    override fun onBackPressed() {
+        onBackPressedDispatcher.onBackPressed()
+        val sharedPreference =  getSharedPreferences("player", Context.MODE_PRIVATE)
+
+        if (::player.isInitialized) {
+            with (sharedPreference.edit()) {
+                putInt("pausedAt", (player.getCurrentTime()/1000).toInt())
+                apply()
+            }
         }
     }
 }
