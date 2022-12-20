@@ -22,7 +22,7 @@ class PlayerActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.tpstream_player_fragment) as TpStreamPlayerFragment
         playerFragment.setOnInitializationListener(object: InitializationListener {
             val sharedPreference =  getSharedPreferences("player", Context.MODE_PRIVATE)
-            val pausedAt = sharedPreference.getInt("pausedAt", 0)
+            val pausedAt = sharedPreference.getLong("pausedAt", 0L)
 
             override fun onInitializationSuccess(player: TpStreamPlayer) {
                 val parameters = TpInitParams.Builder()
@@ -114,7 +114,7 @@ class PlayerActivity : AppCompatActivity() {
 
         if (::player.isInitialized) {
             with (sharedPreference.edit()) {
-                putInt("pausedAt", (player.getCurrentTime()/1000).toInt())
+                putLong("pausedAt", (player.getCurrentTime()/1000L))
                 apply()
             }
         }
