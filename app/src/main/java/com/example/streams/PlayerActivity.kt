@@ -13,11 +13,13 @@ class PlayerActivity : AppCompatActivity() {
     private val videoId = "E44ulfSWhYx"
     private val orgCode = "drm"
     lateinit var player: TpStreamPlayer
+    private var parameters : TpInitParams? = null
     val TAG = "PlayerActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
+        parameters = intent.getParcelableExtra(TP_OFFLINE_PARAMS)
         playerFragment =
             supportFragmentManager.findFragmentById(R.id.tpstream_player_fragment) as TpStreamPlayerFragment
         playerFragment.setOnInitializationListener(object: InitializationListener {
@@ -25,14 +27,17 @@ class PlayerActivity : AppCompatActivity() {
             val pausedAt = sharedPreference.getLong("pausedAt", 0L)
 
             override fun onInitializationSuccess(player: TpStreamPlayer) {
-                val parameters = TpInitParams.Builder()
-                    .setVideoId(videoId)
-                    .setAccessToken(accessToken)
-                    .setOrgCode(orgCode)
-                    .setAutoPlay(true)
-                    .startAt(pausedAt)
-                    .build()
-                playerFragment.load(parameters)
+                if (parameters == null){
+                    parameters = TpInitParams.Builder()
+                        .setVideoId(videoId)
+                        .setAccessToken(accessToken)
+                        .setOrgCode(orgCode)
+                        .setAutoPlay(true)
+                        .startAt(pausedAt)
+                        .enableDownloadSupport(true)
+                        .build()
+                }
+                playerFragment.load(parameters!!)
                 this@PlayerActivity.player = player
             }
         });
