@@ -32,7 +32,6 @@ class PlayerActivity : AppCompatActivity() {
                         .setVideoId(videoId)
                         .setAccessToken(accessToken)
                         .setOrgCode(orgCode)
-                        .setAutoPlay(true)
                         .startAt(pausedAt)
                         .enableDownloadSupport(true)
                         .build()
