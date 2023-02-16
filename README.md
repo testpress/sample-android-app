@@ -15,7 +15,7 @@ repositories {
 
 ```
 // use the latest available version
-implementation 'com.testpress.player:player:1.0.12b'
+implementation 'com.testpress.player:player:1.0.13b'
 ```
 
 ### Enable Java 8 support
