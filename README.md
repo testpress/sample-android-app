@@ -1,7 +1,6 @@
 # Sample android app
 Sample android app using tesptress android native sdk to play videos
 
-## Adding dependency
 ### Add testpress maven repo to app module's `build.gradle`
 
 ```
@@ -30,7 +29,7 @@ compileOptions {
 }
 ```
 
-## Using ProGuard
+### Using ProGuard
 
 ```
 -keep class com.tpstream.player.models.* { *; }
