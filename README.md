@@ -37,4 +37,6 @@ compileOptions {
 ```
 
 ## Documentation
-* The [developer guide][https://developer.testpress.in/docs/video-embedding/player-sdk/android-native-sdk/getting-started] provides a wealth of information.
+* The [developer guide] provides a wealth of information.
+
+[developer guide]: https://developer.testpress.in/docs/video-embedding/player-sdk/android-native-sdk/getting-started
