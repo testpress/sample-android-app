@@ -1,5 +1,13 @@
 # Release notes
 
+### 1.0.13b [Mar 14, 2023]
+
+*   Remove playerFragment.playbackStateListener. Use player.setListener(TPStreamPlayerListener) instead
+*   Rename TPPlayerListener to TPStreamPlayerListener
+*   Rename OfflineVideoState to DownloadStatus
+*   Rename OfflineVideoInfo to Video
+*   Code optimisation and refactoring
+
 ### 1.0.12b [Feb 10, 2023]
 
 *   Fix stop background music when the video starts playing
