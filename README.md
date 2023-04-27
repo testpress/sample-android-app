@@ -41,8 +41,7 @@ compileOptions {
 ```
 
 ## Documentation
-* The [Testpress developer guide] provides a wealth of information.
-* The [TpStreams developer guide] provides a wealth of information.
+* The developer guides for both [Testpress] and [TPStreams] provide a wealth of information.
 
-[Testpress developer guide]: https://developer.testpress.in/docs/video-embedding/player-sdk/android-native-sdk/getting-started
-[TpStreams developer guide]: https://developer.tpstreams.com/docs/mobile-sdk/android-native-sdk/getting-started
+[Testpress]: https://developer.testpress.in/docs/video-embedding/player-sdk/android-native-sdk/getting-started
+[TpStreams]: https://developer.tpstreams.com/docs/mobile-sdk/android-native-sdk/getting-started
