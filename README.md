@@ -11,11 +11,16 @@ repositories {
 }
 ```
 
-### Add testpress player dependency to app project `build.gradle`
+### Add player dependency to app project `build.gradle`
 
 ```
-// use the latest available version
+// Use the latest version available for integration (this sample app is integrated with Testpress).
+
+// To integrate the Testpress player
 implementation 'com.testpress.player:player:1.0.13b'
+
+// To integrate the TpStreams player
+implementation 'com.tpstreams.player:player:1.0.13b'
 ```
 
 ### Enable Java 8 support
@@ -32,10 +37,11 @@ compileOptions {
 ### Using ProGuard
 
 ```
--keep class com.tpstream.player.models.* { *; }
+-keep class com.tpstream.player.* { *; }
 ```
 
 ## Documentation
-* The [developer guide] provides a wealth of information.
+* The developer guides for both [Testpress] and [TPStreams] provide a wealth of information.
 
-[developer guide]: https://developer.testpress.in/docs/video-embedding/player-sdk/android-native-sdk/getting-started
+[Testpress]: https://developer.testpress.in/docs/video-embedding/player-sdk/android-native-sdk/getting-started
+[TpStreams]: https://developer.tpstreams.com/docs/mobile-sdk/android-native-sdk/getting-started
