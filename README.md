@@ -14,12 +14,12 @@ repositories {
 ### Add player dependency to app project `build.gradle`
 
 ```
-// use the latest available version (this sample app is integrated with Testpress)
+// Please use the latest version available for integration (this sample app is integrated with Testpress).
 
-// For Testpress
+// To integrate the Testpress player, use the following implementation line
 implementation 'com.testpress.player:player:1.0.13b'
 
-// For TpStreams
+// Alternatively, to integrate the TPStreams player, use this implementation line
 implementation 'com.tpstreams.player:player:1.0.13b'
 ```
 
