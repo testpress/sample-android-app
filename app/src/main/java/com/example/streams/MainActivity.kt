@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import com.tpstream.player.TpInitParams
 
 // Sample DRM Video (Replace this params with yours)
@@ -18,7 +19,7 @@ const val SAMPLE_2_ORG_CODE = "lmsdemo"
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.main_two)
     }
 
     fun sample1(view: View) {
@@ -49,4 +50,22 @@ class MainActivity : AppCompatActivity() {
         val myIntent = Intent(this, DownloadListActivity::class.java)
         startActivity(myIntent)
     }
+
+    fun playButton(view: View) {
+
+        var orgcode = findViewById<EditText>(R.id.org_code).text.toString()
+        var accessToken = findViewById<EditText>(R.id.access_token).text.toString()
+        var videoId = findViewById<EditText>(R.id.video_id).text.toString()
+
+        val parameters = TpInitParams.Builder()
+            .setVideoId(videoId)
+            .setAccessToken(accessToken)
+            .setOrgCode(orgcode)
+            .enableDownloadSupport(true)
+            .build()
+        val myIntent = Intent(this, PlayerActivity::class.java)
+        myIntent.putExtra(TP_OFFLINE_PARAMS,parameters)
+        startActivity(myIntent)
+    }
+
 }
