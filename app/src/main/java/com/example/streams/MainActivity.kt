@@ -35,9 +35,10 @@ class MainActivity : AppCompatActivity() {
 
     fun sample2(view: View) {
         val parameters = TpInitParams.Builder()
-            .setVideoId(SAMPLE_2_VIDEO_ID)
-            .setAccessToken(SAMPLE_2_ACCESS_TOKEN)
-            .setOrgCode(SAMPLE_2_ORG_CODE)
+            .setVideoId("4d9QZ4bRY2U")
+            .setAccessToken("4844bba4-79fb-4789-a67b-82afe6a5f41d")
+            .setOrgCode("m9n4m6")
+            .setAutoPlay(true)
             .enableDownloadSupport(true)
             .build()
         val myIntent = Intent(this, PlayerActivity::class.java)
