@@ -17,8 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.streams.databinding.ActivityDownloadListBinding
 import com.example.streams.databinding.DownloadItemBinding
 import com.tpstream.player.TpInitParams
-import com.tpstream.player.models.DownloadStatus
-import com.tpstream.player.models.Video
+import com.tpstream.player.data.Video
+import com.tpstream.player.data.source.local.DownloadStatus
 
 const val TP_OFFLINE_PARAMS = "tp_offline_params"
 
