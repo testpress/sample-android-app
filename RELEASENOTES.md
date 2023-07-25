@@ -1,5 +1,23 @@
 # Release notes
 
+### 1.0.14b [Jul 25, 2023]
+
+* Add TpStreamPlayer.load() as a replacement forTpStreamPlayerFragment.load(). The load method in fragment will be deprecated in the next release.
+* Added play and pause APIs in the TpStreamsPlayer to programmatically control the playback.
+* Add new TPStreamPlayerView
+* Add support to Enable and Disable seekBar in TPStreamPlayerView
+* Add support to show and hide fast forward button and rewind button
+* Fix Night theme in Resolution selection sheet and Download selection sheet.
+* Fix duplicate resolution names in Resolution selection sheet.
+* Upgraded media3 dependency to 1.0.2
+* Add Marker support to TpStreamsPlayer
+* Move com.tpstream.player.TpStreamPlayerFragment to com.tpstream.player.ui.TpStreamPlayerFragment
+* Move com.tpstream.player.models.Video to com.tpstream.player.data.Video
+* Move com.tpstream.player.TpStreamDownloadManager to com.tpstream.player.offline.TpStreamDownloadManager
+* Move com.tpstream.player.models.DownloadStatus to com.tpstream.player.data.source.local.DownloadStatus
+* Move com.tpstream.player.InitializationListener to com.tpstream.player.ui.InitializationListener
+* Code optimisation and refactoring
+
 ### 1.0.13b [Mar 14, 2023]
 
 *   Remove playerFragment.playbackStateListener. Use player.setListener(TPStreamPlayerListener) instead
