@@ -3,10 +3,10 @@
 ### 1.0.14b [Jul 25, 2023]
 
 * Add `TpStreamPlayer.load()` as a replacement for `TpStreamPlayerFragment.load()`. The load method in fragment will be deprecated in the next release.
-* Added play and pause APIs in the TpStreamsPlayer to programmatically control the playback.
+* Added `play()` and `pause()` APIs in the `TpStreamsPlayer` to programmatically control the playback.
 * Add new `TPStreamPlayerView`.
 * Add support to Enable and Disable seekBar in `TPStreamPlayerView`.
-* Add support to show and hide fast forward button and rewind button
+* Add support to show and hide fast forward button and rewind button in `TPStreamPlayerView`.
 * Fix Night theme in Resolution selection sheet and Download selection sheet.
 * Fix duplicate resolution names in Resolution selection sheet.
 * Upgraded media3 dependency to 1.0.2
