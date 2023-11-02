@@ -47,9 +47,5 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 
-    // Use below implementation for Testpress integration
-    implementation "com.testpress.player:player:1.0.14b"
-    // (OR)
-    // Use below implementation for TPStreams integration
-    // implementation "com.tpstreams.player:player:1.0.14b"
+    implementation "com.tpstreams.player:player:2.0.0b"
 }

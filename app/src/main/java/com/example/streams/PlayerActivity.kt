@@ -17,7 +17,6 @@ class PlayerActivity : AppCompatActivity() {
     lateinit var playerFragment: TpStreamPlayerFragment
     private val accessToken = "c381512b-7337-4d8e-a8cf-880f4f08fd08"
     private val videoId = "C3XLe1CCcOq"
-    private val orgCode = "demoveranda"
     private var parameters : TpInitParams? = null
     private var pausedAt: Long = 0L
     val TAG = "PlayerActivity"
@@ -25,6 +24,7 @@ class PlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
+        TPStreamsSDK.initialize(TPStreamsSDK.Provider.TestPress, SAMPLE_1_ORG_CODE)
 
         parameters = intent.getParcelableExtra(TP_OFFLINE_PARAMS)
         val sharedPreference =  getSharedPreferences("player", Context.MODE_PRIVATE)
@@ -50,7 +50,6 @@ class PlayerActivity : AppCompatActivity() {
             parameters = TpInitParams.Builder()
                 .setVideoId(videoId)
                 .setAccessToken(accessToken)
-                .setOrgCode(orgCode)
                 .startAt(pausedAt)
                 .enableDownloadSupport(true)
                 .build()

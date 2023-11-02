@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.tpstream.player.TPStreamsSDK
 import com.tpstream.player.TpInitParams
 
 // Sample DRM Video (Replace this params with yours)
@@ -25,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         val parameters = TpInitParams.Builder()
             .setVideoId(SAMPLE_1_VIDEO_ID)
             .setAccessToken(SAMPLE_1_ACCESS_TOKEN)
-            .setOrgCode(SAMPLE_1_ORG_CODE)
             .enableDownloadSupport(true)
             .build()
         val myIntent = Intent(this, PlayerActivity::class.java)
@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         val parameters = TpInitParams.Builder()
             .setVideoId(SAMPLE_2_VIDEO_ID)
             .setAccessToken(SAMPLE_2_ACCESS_TOKEN)
-            .setOrgCode(SAMPLE_2_ORG_CODE)
             .enableDownloadSupport(true)
             .build()
         val myIntent = Intent(this, PlayerActivity::class.java)
