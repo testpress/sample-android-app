@@ -55,6 +55,7 @@ class PlayerFragment : Fragment() {
             .setAutoPlay(true)
             .build()
         player.load(parameters)
+        playerFragment.showFullScreen()
     }
 
     private fun addPlayerListener(){
