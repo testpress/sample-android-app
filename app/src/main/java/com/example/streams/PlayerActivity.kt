@@ -24,7 +24,7 @@ class PlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
-        TPStreamsSDK.initialize(TPStreamsSDK.Provider.TestPress, SAMPLE_1_ORG_CODE)
+        TPStreamsSDK.initialize(TPStreamsSDK.Provider.TestPress, ORG_CODE)
 
         parameters = intent.getParcelableExtra(TP_OFFLINE_PARAMS)
         val sharedPreference =  getSharedPreferences("player", Context.MODE_PRIVATE)
