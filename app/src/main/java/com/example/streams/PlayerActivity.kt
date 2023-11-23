@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.tpstream.player.*
+import com.tpstream.player.enum.PlaybackError
 import com.tpstream.player.ui.InitializationListener
 import com.tpstream.player.ui.TPStreamPlayerView
 import com.tpstream.player.ui.TpStreamPlayerFragment
@@ -65,6 +66,10 @@ class PlayerActivity : AppCompatActivity() {
 
             override fun onMarkerCallback(timesInSeconds: Long) {
                 Toast.makeText(this@PlayerActivity,"Time $timesInSeconds",Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onPlayerError(playbackError: PlaybackError) {
+                Toast.makeText(this@PlayerActivity,playbackError.name,Toast.LENGTH_SHORT).show()
             }
         })
     }
