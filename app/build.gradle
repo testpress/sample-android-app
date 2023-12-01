@@ -47,8 +47,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 
-    implementation "com.tpstreams.player:player:3.0.5b"
+    implementation "com.tpstreams.player:player:3.0.6b"
 
     // Exoplayer2 already used in your project please use below dependencies
-    // implementation "com.tpstreams.player:player:2.0.1b"
+    //implementation "com.tpstreams.player:player:2.0.6b"
 }
