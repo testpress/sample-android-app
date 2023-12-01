@@ -36,6 +36,7 @@ class PlayerActivity : AppCompatActivity() {
 
             override fun onInitializationSuccess(player: TpStreamPlayer) {
                 this@PlayerActivity.player = player
+                player.setMaxResolution(560)
                 playerView = playerFragment.tpStreamPlayerView
                 loadPLayer()
                 addPlayerListener()
