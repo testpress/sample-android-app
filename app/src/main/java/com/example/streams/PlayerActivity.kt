@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.media3.common.Player.EVENT_IS_PLAYING_CHANGED
 import com.tpstream.player.*
 import com.tpstream.player.enum.PlaybackError
 import com.tpstream.player.ui.InitializationListener
@@ -71,6 +72,12 @@ class PlayerActivity : AppCompatActivity() {
 
             override fun onPlayerError(playbackError: PlaybackError) {
                 Toast.makeText(this@PlayerActivity,playbackError.name,Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onEvents(player: TpStreamPlayer?, events: PlayerEvents) {
+                if (events.contains(EVENT_IS_PLAYING_CHANGED)){
+                    Log.d("TAG", "playing changed")
+                }
             }
         })
     }
