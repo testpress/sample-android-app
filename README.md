@@ -17,10 +17,7 @@ repositories {
 // Use the latest version available for integration (this sample app is integrated with Testpress).
 
 // To integrate the Testpress player
-implementation 'com.testpress.player:player:1.0.13b'
-
-// To integrate the TpStreams player
-implementation 'com.tpstreams.player:player:1.0.13b'
+implementation 'com.tpstreams.player:player:3.0.13b'
 ```
 
 ### Enable Java 8 support
@@ -37,7 +34,7 @@ compileOptions {
 ### Using ProGuard
 
 ```
--keep class com.tpstream.player.* { *; }
+-keep class com.tpstream.player.** { *; }
 ```
 
 ## Documentation
