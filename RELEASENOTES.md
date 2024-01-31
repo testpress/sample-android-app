@@ -1,5 +1,11 @@
 # Release notes
 
+### 3.0.14b [Jan  31, 2024]
+
+This release corresponds to the 2.0.14b
+
+* Fix resolution not listing in advance resolution sheet
+
 ### 3.0.13b [Jan  6, 2024]
 
 This release corresponds to the 2.0.13b
