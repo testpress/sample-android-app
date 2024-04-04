@@ -3,30 +3,30 @@ package com.example.streams
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.tpstream.player.data.Video
+import com.tpstream.player.data.Asset
 import com.tpstream.player.offline.TpStreamDownloadManager
 
 class DownloadListViewModel(context: Context): ViewModel() {
 
     private var tpStreamDownloadManager: TpStreamDownloadManager = TpStreamDownloadManager(context)
 
-    fun getDownloadData(): LiveData<List<Video>?> {
+    fun getDownloadData(): LiveData<List<Asset>?> {
         return tpStreamDownloadManager.getAllDownloads()
     }
 
-    fun pauseDownload(offlineVideoInfo: Video) {
-        tpStreamDownloadManager.pauseDownload(offlineVideoInfo)
+    fun pauseDownload(offlineAssetInfo: Asset) {
+        tpStreamDownloadManager.pauseDownload(offlineAssetInfo)
     }
 
-    fun resumeDownload(offlineVideoInfo: Video) {
-        tpStreamDownloadManager.resumeDownload(offlineVideoInfo)
+    fun resumeDownload(offlineAssetInfo: Asset) {
+        tpStreamDownloadManager.resumeDownload(offlineAssetInfo)
     }
 
-    fun cancelDownload(offlineVideoInfo: Video) {
-        tpStreamDownloadManager.cancelDownload(offlineVideoInfo)
+    fun cancelDownload(offlineAssetInfo: Asset) {
+        tpStreamDownloadManager.cancelDownload(offlineAssetInfo)
     }
 
-    fun deleteDownload(offlineVideoInfo: Video) {
-        tpStreamDownloadManager.deleteDownload(offlineVideoInfo)
+    fun deleteDownload(offlineAssetInfo: Asset) {
+        tpStreamDownloadManager.deleteDownload(offlineAssetInfo)
     }
 }

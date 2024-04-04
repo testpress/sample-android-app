@@ -1,5 +1,14 @@
 # Release notes
 
+### 3.0.15b [Feb  26, 2024]
+
+This release corresponds to the 2.0.15b
+
+* Introduced support for Livestream.
+* Introduced a new Asset class and incorporated the existing Video class as an attribute within the Asset.
+* Download callbacks will take the Asset object as an argument instead of a Video.
+* Conducted code optimization, refactoring, and miscellaneous bug fixes.
+
 ### 3.0.14b [Jan  31, 2024]
 
 This release corresponds to the 2.0.14b
