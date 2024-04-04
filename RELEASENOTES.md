@@ -1,5 +1,11 @@
 # Release notes
 
+### 3.0.16b [Apr  04, 2024]
+
+This release corresponds to the 2.0.16b
+
+* Added `setPreferredExitFullscreenOrientation` to specify preferred orientation upon exiting fullscreen mode.
+
 ### 3.0.15b [Feb  26, 2024]
 
 This release corresponds to the 2.0.15b

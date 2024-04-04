@@ -1,6 +1,7 @@
 package com.example.streams
 
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -46,6 +47,7 @@ class PlayerActivity : AppCompatActivity() {
             }
         });
         playerFragment.enableAutoFullScreenOnRotate()
+        playerFragment.setPreferredFullscreenExitOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
     }
 
     fun loadPLayer(){
