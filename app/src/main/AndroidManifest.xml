@@ -39,6 +39,16 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".PlayerActivityJava"
+            android:configChanges="orientation|screenSize|layoutDirection"
+            android:exported="false"
+            android:label="@string/title_activity_player_java"
+            android:theme="@style/Theme.Streams.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

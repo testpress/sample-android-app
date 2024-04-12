@@ -54,4 +54,9 @@ class MainActivity : AppCompatActivity() {
         val myIntent = Intent(this, PlayerFragmentActivity::class.java)
         startActivity(myIntent)
     }
+
+    fun openPlayerActivityJava(view: View) {
+        val myIntent = Intent(this, PlayerActivityJava::class.java)
+        startActivity(myIntent)
+    }
 }
