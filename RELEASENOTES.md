@@ -1,5 +1,14 @@
 # Release notes
 
+### 3.0.17b [Apr  15, 2024]
+
+This release corresponds to the 2.0.17b
+
+* Moved `com.tpstream.player.enum.PlaybackError` to `com.tpstream.player.constants.PlaybackError`.
+* Removed deprecated `onMetadata()` method from `TPStreamPlayerListener`.
+* Removed deprecated `onPlayerErrorChanged()` method from `TPStreamPlayerListener`.
+* Added subtitle support.
+
 ### 3.0.16b [Apr  04, 2024]
 
 This release corresponds to the 2.0.16b

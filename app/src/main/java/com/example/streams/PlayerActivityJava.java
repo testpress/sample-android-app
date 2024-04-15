@@ -1,16 +1,28 @@
 package com.example.streams;
 
+import static androidx.media3.common.Player.EVENT_IS_PLAYING_CHANGED;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.media3.common.DeviceInfo;
+import androidx.media3.common.Player;
+import androidx.media3.common.Timeline;
+import androidx.media3.common.Tracks;
+import androidx.media3.common.VideoSize;
 
+import com.tpstream.player.TPStreamPlayerListener;
 import com.tpstream.player.TPStreamsSDK;
 import com.tpstream.player.TpInitParams;
 import com.tpstream.player.TpStreamPlayer;
+import com.tpstream.player.constants.PlaybackError;
 import com.tpstream.player.ui.InitializationListener;
 import com.tpstream.player.ui.TPStreamPlayerView;
 import com.tpstream.player.ui.TpStreamPlayerFragment;
@@ -21,6 +33,7 @@ public class PlayerActivityJava extends AppCompatActivity {
     private TpStreamPlayerFragment playerFragment;
     private long pausedAt = 0L;
     private static final String ORG_CODE = "lmsdemo";
+    private String TAG = "PlayerActivityJava";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +49,9 @@ public class PlayerActivityJava extends AppCompatActivity {
             @Override
             public void onInitializationSuccess(@NonNull TpStreamPlayer tpStreamPlayer) {
                 PlayerActivityJava.this.player = tpStreamPlayer;
-                player.setMaxResolution(560);
                 playerView = playerFragment.getTpStreamPlayerView();
                 loadPLayer();
+                addPlayerListener();
             }
         });
         playerFragment.enableAutoFullScreenOnRotate();
@@ -55,6 +68,87 @@ public class PlayerActivityJava extends AppCompatActivity {
                 .enableDownloadSupport(true)
                 .build();
         player.load(parameters);
+    }
+
+    private void addPlayerListener() {
+        player.setListener(new TPStreamPlayerListener() {
+            @Override
+            public void onTracksChanged(@NonNull Tracks tracks) {
+
+            }
+
+            @Override
+            public void onIsPlayingChanged(boolean b) {
+
+            }
+
+            @Override
+            public void onIsLoadingChanged(boolean b) {
+
+            }
+
+            @Override
+            public void onDeviceInfoChanged(@NonNull DeviceInfo deviceInfo) {
+
+            }
+
+            @Override
+            public void onPlayWhenReadyChanged(boolean b, int i) {
+
+            }
+
+            @Override
+            public void onEvents(@Nullable TpStreamPlayer tpStreamPlayer, @NonNull Player.Events events) {
+                if (events.contains(EVENT_IS_PLAYING_CHANGED)){
+                    Log.d("TAG", "playing changed");
+                }
+            }
+
+            @Override
+            public void onSeekBackIncrementChanged(long l) {
+
+            }
+
+            @Override
+            public void onSeekForwardIncrementChanged(long l) {
+
+            }
+
+            @Override
+            public void onVideoSizeChanged(@NonNull VideoSize videoSize) {
+
+            }
+
+            @Override
+            public void onPositionDiscontinuity(@NonNull Player.PositionInfo positionInfo, @NonNull Player.PositionInfo positionInfo1, int i) {
+
+            }
+
+            @Override
+            public void onTimelineChanged(@NonNull Timeline timeline, int i) {
+
+            }
+
+            @Override
+            public void onPlaybackStateChanged(int i) {
+                Log.d(TAG, "onPlaybackStateChanged: $playbackState");
+            }
+
+            @Override
+            public void onPlayerError(@NonNull PlaybackError playbackError) {
+                Toast.makeText(PlayerActivityJava.this,playbackError.name(),Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onMarkerCallback(long l) {
+
+            }
+
+            @Override
+            public void onFullScreenChanged(boolean b) {
+
+            }
+        });
     }
 
     @Override

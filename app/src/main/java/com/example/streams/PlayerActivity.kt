@@ -9,7 +9,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.media3.common.Player.EVENT_IS_PLAYING_CHANGED
 import com.tpstream.player.*
-import com.tpstream.player.enum.PlaybackError
+import com.tpstream.player.constants.PlaybackError
 import com.tpstream.player.ui.InitializationListener
 import com.tpstream.player.ui.TPStreamPlayerView
 import com.tpstream.player.ui.TpStreamPlayerFragment
