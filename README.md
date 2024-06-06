@@ -17,7 +17,7 @@ repositories {
 // Use the latest version available for integration (this sample app is integrated with Testpress).
 
 // To integrate the Testpress player
-implementation 'com.tpstreams.player:player:3.0.14b'
+implementation 'com.tpstreams.player:player:3.0.17b'
 ```
 
 ### Enable Java 8 support
