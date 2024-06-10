@@ -14,10 +14,15 @@ repositories {
 ### Add player dependency to app project `build.gradle`
 
 ```
-// Use the latest version available for integration (this sample app is integrated with Testpress).
+// Use the latest version available for integration.
 
-// To integrate the Testpress player
-implementation 'com.tpstreams.player:player:3.0.17b'
+// To integrate the TPStreams player
+implementation 'com.tpstreams.player:player:3.0.18'
+
+// If you're already using Exo Player in youe project, you can still integrate TPStreams Player with below implimentation.
+
+// To integrate the TPStreams player
+implementation 'com.tpstreams.player:player:2.0.18'
 ```
 
 ### Enable Java 8 support

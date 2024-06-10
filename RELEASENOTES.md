@@ -1,5 +1,13 @@
 # Release notes
 
+### 3.0.18 [Jun  10, 2024]
+
+This release corresponds to the 2.0.18
+
+* Added `getDownloadAsset()` method in `TpStreamDownloadManager` to fetch a single download asset.
+* Added `showFullscreenButton()` and `hideFullscreenButton()` methods in TPStreamPlayerView.
+* Code optimisation and refactoring.
+
 ### 3.0.17b [Apr  15, 2024]
 
 This release corresponds to the 2.0.17b
