@@ -67,7 +67,7 @@ public class PlayerActivityJava extends AppCompatActivity {
                 .startAt(pausedAt)
                 .enableDownloadSupport(true)
                 .build();
-        player.load(parameters);
+        player.load(parameters,null);
     }
 
     private void addPlayerListener() {

@@ -1,5 +1,15 @@
 # Release notes
 
+### 3.0.19 [Jun  19, 2024]
+
+This release corresponds to the 2.0.19
+
+* Updated the compile and target SDK versions to 33.
+* Fixed order changing issue in downloaded assets.
+* Added option to store metadata with the download asset.
+* Added folderTree field in Asset model to fetch the video folder path.
+* Code optimization and refactoring.
+
 ### 3.0.18 [Jun  10, 2024]
 
 This release corresponds to the 2.0.18
