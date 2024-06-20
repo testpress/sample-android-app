@@ -27,6 +27,8 @@ import com.tpstream.player.ui.InitializationListener;
 import com.tpstream.player.ui.TPStreamPlayerView;
 import com.tpstream.player.ui.TpStreamPlayerFragment;
 
+import java.util.HashMap;
+
 public class PlayerActivityJava extends AppCompatActivity {
     private TpStreamPlayer player;
     private TPStreamPlayerView playerView;
@@ -67,7 +69,13 @@ public class PlayerActivityJava extends AppCompatActivity {
                 .startAt(pausedAt)
                 .enableDownloadSupport(true)
                 .build();
-        player.load(parameters,null);
+        player.load(parameters,getMetadata());
+    }
+
+    private HashMap<String,String> getMetadata() {
+        HashMap<String,String> metadata = new HashMap<>();
+        metadata.put("userId","123");
+        return metadata;
     }
 
     private void addPlayerListener() {
