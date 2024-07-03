@@ -1,5 +1,13 @@
 # Release notes
 
+### 3.0.20 [Jul  03, 2024]
+
+This release corresponds to the 2.0.20
+
+* Added permission for foregroundServiceType in the manifest.
+* Added validation for `TpInitParams` before playing downloaded videos.
+* Code optimization and refactoring.
+
 ### 3.0.19 [Jun  19, 2024]
 
 This release corresponds to the 2.0.19
