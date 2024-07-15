@@ -1,5 +1,15 @@
 # Release notes
 
+### 3.0.21 [Jul  15, 2024]
+
+This release corresponds to the 2.0.21
+
+* Added validation to ensure `videoId` and `accessToken` are neither null nor empty.
+* Fixed a NullPointerException that occurred when updating the download button image.
+* Introduced an API to start downloads in `TpStreamDownloadManager`.
+* Displayed appropriate notice messages according to the livestream status.
+* Optimized and refactored code.
+
 ### 3.0.20 [Jul  03, 2024]
 
 This release corresponds to the 2.0.20
