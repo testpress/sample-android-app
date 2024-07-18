@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.media3.common.Player.EVENT_IS_PLAYING_CHANGED
+import com.google.android.exoplayer2.Player.EVENT_IS_PLAYING_CHANGED
 import com.tpstream.player.*
 import com.tpstream.player.constants.PlaybackError
 import com.tpstream.player.ui.InitializationListener
@@ -27,7 +27,7 @@ class PlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
-        TPStreamsSDK.initialize(TPStreamsSDK.Provider.TestPress, ORG_CODE)
+        TPStreamsSDK.initialize(TPStreamsSDK.Provider.TPStreams, ORG_CODE)
 
         parameters = intent.getParcelableExtra(TP_OFFLINE_PARAMS)
         val sharedPreference =  getSharedPreferences("player", Context.MODE_PRIVATE)

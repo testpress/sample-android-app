@@ -7,11 +7,11 @@ import android.view.View
 import com.tpstream.player.TpInitParams
 
 // organization id (Replace this ORG_CODE with yours)
-const val ORG_CODE = "lmsdemo"
+const val ORG_CODE = "edee9b"
 
 // Sample DRM Video (Replace this params with yours)
-const val DRM_SAMPLE_VIDEO_ID = "z1TLpfuZzXh"
-const val DRM_SAMPLE_ACCESS_TOKEN = "5c49285b-0557-4cef-b214-66034d0b77c3"
+const val DRM_SAMPLE_VIDEO_ID = "7kHJKnME3p2"
+const val DRM_SAMPLE_ACCESS_TOKEN = "14fe790e-2ce7-48de-b428-9f45eed77887"
 
 // Sample Non-DRM Video (Replace this params with yours)
 const val NON_DRM_SAMPLE_VIDEO_ID = "ATJfRdHIUC9"

@@ -1,6 +1,7 @@
 package com.example.streams;
 
-import static androidx.media3.common.Player.EVENT_IS_PLAYING_CHANGED;
+
+import static com.google.android.exoplayer2.Player.EVENT_IS_PLAYING_CHANGED;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,12 +13,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.media3.common.DeviceInfo;
-import androidx.media3.common.Player;
-import androidx.media3.common.Timeline;
-import androidx.media3.common.Tracks;
-import androidx.media3.common.VideoSize;
 
+import com.google.android.exoplayer2.DeviceInfo;
+import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.Timeline;
+import com.google.android.exoplayer2.Tracks;
+import com.google.android.exoplayer2.video.VideoSize;
 import com.tpstream.player.TPStreamPlayerListener;
 import com.tpstream.player.TPStreamsSDK;
 import com.tpstream.player.TpInitParams;
