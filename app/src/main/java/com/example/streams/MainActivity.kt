@@ -7,11 +7,11 @@ import android.view.View
 import com.tpstream.player.TpInitParams
 
 // organization id (Replace this ORG_CODE with yours)
-const val ORG_CODE = "lmsdemo"
+const val ORG_CODE = "6eafqn"
 
 // Sample DRM Video (Replace this params with yours)
-const val DRM_SAMPLE_VIDEO_ID = "z1TLpfuZzXh"
-const val DRM_SAMPLE_ACCESS_TOKEN = "5c49285b-0557-4cef-b214-66034d0b77c3"
+const val DRM_SAMPLE_VIDEO_ID = "6suEBPy7EG4"
+const val DRM_SAMPLE_ACCESS_TOKEN = "ab70caed-6168-497f-89c1-1e308da2c9aa"
 
 // Sample Non-DRM Video (Replace this params with yours)
 const val NON_DRM_SAMPLE_VIDEO_ID = "ATJfRdHIUC9"
@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         val parameters = TpInitParams.Builder()
             .setVideoId(DRM_SAMPLE_VIDEO_ID)
             .setAccessToken(DRM_SAMPLE_ACCESS_TOKEN)
+            .setOfflineLicenseExpireTime(300)
             .enableDownloadSupport(true)
             .build()
         val myIntent = Intent(this, PlayerActivity::class.java)

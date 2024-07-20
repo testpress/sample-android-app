@@ -29,6 +29,9 @@ import com.tpstream.player.ui.TpStreamPlayerFragment;
 
 import java.util.HashMap;
 
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+
 public class PlayerActivityJava extends AppCompatActivity {
     private TpStreamPlayer player;
     private TPStreamPlayerView playerView;
@@ -80,6 +83,11 @@ public class PlayerActivityJava extends AppCompatActivity {
 
     private void addPlayerListener() {
         player.setListener(new TPStreamPlayerListener() {
+            @Override
+            public void onAccessTokenExpired(@NonNull String s, @NonNull Function1<? super String, Unit> function1) {
+                function1.invoke("a4c04ca8-9c0e-4c9c-a889-bd3bf8ea586a");
+            }
+
             @Override
             public void onTracksChanged(@NonNull Tracks tracks) {
 

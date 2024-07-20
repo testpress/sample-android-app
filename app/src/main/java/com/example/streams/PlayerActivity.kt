@@ -68,6 +68,13 @@ class PlayerActivity : AppCompatActivity() {
                 Log.d(TAG, "onPlaybackStateChanged: $playbackState")
             }
 
+            override fun onAccessTokenExpired(videoId: String, callback: (String) -> Unit) {
+                when(videoId){
+                    "z1TLpfuZzXh" -> callback("5c49285b-0557-4cef-b214-66034d0b77c3")
+                    "ATJfRdHIUC9" -> callback("a4c04ca8-9c0e-4c9c-a889-bd3bf8ea586a")
+                }
+            }
+
             override fun onMarkerCallback(timesInSeconds: Long) {
                 Toast.makeText(this@PlayerActivity,"Time $timesInSeconds",Toast.LENGTH_SHORT).show()
             }

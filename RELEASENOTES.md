@@ -1,5 +1,16 @@
 # Release notes
 
+### 3.0.22 [Jul  20, 2024]
+
+This release corresponds to the 2.0.22
+
+* Added `onAccessTokenExpired` callback in `TPStreamPlayerListener`.
+* Fixed issue where the download button did not appear for completed livestreams.
+* Improved error messages to be more user-friendly.
+* Resolved crash issue related to renewing offline DRM licenses.
+* Added an option to set the offline license expiration time when building `TpInitParams`.
+* Code optimization and refactoring.
+
 ### 3.0.21 [Jul  15, 2024]
 
 This release corresponds to the 2.0.21
