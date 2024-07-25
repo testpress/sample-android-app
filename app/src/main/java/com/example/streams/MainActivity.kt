@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.tpstream.player.FIFTEEN_DAYS
 import com.tpstream.player.TpInitParams
 
 // organization id (Replace this ORG_CODE with yours)
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         val parameters = TpInitParams.Builder()
             .setVideoId(DRM_SAMPLE_VIDEO_ID)
             .setAccessToken(DRM_SAMPLE_ACCESS_TOKEN)
-            .setOfflineLicenseExpireTime(300)
+            .setOfflineLicenseExpireTime(FIFTEEN_DAYS)
             .enableDownloadSupport(true)
             .build()
         val myIntent = Intent(this, PlayerActivity::class.java)
