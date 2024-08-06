@@ -55,6 +55,8 @@ class PlayerActivity : AppCompatActivity() {
             parameters = TpInitParams.Builder()
                 .setVideoId(videoId)
                 .setAccessToken(accessToken)
+                .setUserId("testUser")
+                .setOfflineLicenseExpireTime(FIFTEEN_DAYS)
                 .startAt(pausedAt)
                 .enableDownloadSupport(true)
                 .build()
@@ -70,8 +72,8 @@ class PlayerActivity : AppCompatActivity() {
 
             override fun onAccessTokenExpired(videoId: String, callback: (String) -> Unit) {
                 when(videoId){
-                    "z1TLpfuZzXh" -> callback("5c49285b-0557-4cef-b214-66034d0b77c3")
-                    "ATJfRdHIUC9" -> callback("a4c04ca8-9c0e-4c9c-a889-bd3bf8ea586a")
+                    DRM_SAMPLE_VIDEO_ID -> callback(DRM_SAMPLE_ACCESS_TOKEN)
+                    NON_DRM_SAMPLE_VIDEO_ID -> callback(NON_DRM_SAMPLE_ACCESS_TOKEN)
                 }
             }
 

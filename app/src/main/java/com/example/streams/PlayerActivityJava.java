@@ -2,6 +2,12 @@ package com.example.streams;
 
 import static androidx.media3.common.Player.EVENT_IS_PLAYING_CHANGED;
 
+import static com.example.streams.MainActivityKt.DRM_SAMPLE_ACCESS_TOKEN;
+import static com.example.streams.MainActivityKt.DRM_SAMPLE_VIDEO_ID;
+import static com.example.streams.MainActivityKt.NON_DRM_SAMPLE_ACCESS_TOKEN;
+import static com.example.streams.MainActivityKt.NON_DRM_SAMPLE_VIDEO_ID;
+import static com.example.streams.MainActivityKt.ORG_CODE;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -21,6 +27,7 @@ import androidx.media3.common.VideoSize;
 import com.tpstream.player.TPStreamPlayerListener;
 import com.tpstream.player.TPStreamsSDK;
 import com.tpstream.player.TpInitParams;
+import com.tpstream.player.TpInitParamsKt;
 import com.tpstream.player.TpStreamPlayer;
 import com.tpstream.player.constants.PlaybackError;
 import com.tpstream.player.ui.InitializationListener;
@@ -37,14 +44,13 @@ public class PlayerActivityJava extends AppCompatActivity {
     private TPStreamPlayerView playerView;
     private TpStreamPlayerFragment playerFragment;
     private long pausedAt = 0L;
-    private static final String ORG_CODE = "lmsdemo";
     private String TAG = "PlayerActivityJava";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player_java);
-        TPStreamsSDK.INSTANCE.initialize(TPStreamsSDK.Provider.TestPress, ORG_CODE);
+        TPStreamsSDK.INSTANCE.initialize(TPStreamsSDK.Provider.TPStreams, ORG_CODE);
 
         SharedPreferences sharedPreference = getSharedPreferences("player", Context.MODE_PRIVATE);
         pausedAt = sharedPreference.getLong("pausedAt", 0L);
@@ -64,11 +70,10 @@ public class PlayerActivityJava extends AppCompatActivity {
     }
 
     private void loadPLayer() {
-        String accessToken = "a4c04ca8-9c0e-4c9c-a889-bd3bf8ea586a";
-        String videoId = "ATJfRdHIUC9";
         TpInitParams parameters = new TpInitParams.Builder()
-                .setVideoId(videoId)
-                .setAccessToken(accessToken)
+                .setVideoId(DRM_SAMPLE_VIDEO_ID)
+                .setAccessToken(DRM_SAMPLE_ACCESS_TOKEN)
+                .setOfflineLicenseExpireTime(TpInitParamsKt.FIFTEEN_DAYS)
                 .startAt(pausedAt)
                 .enableDownloadSupport(true)
                 .build();
@@ -85,7 +90,16 @@ public class PlayerActivityJava extends AppCompatActivity {
         player.setListener(new TPStreamPlayerListener() {
             @Override
             public void onAccessTokenExpired(@NonNull String s, @NonNull Function1<? super String, Unit> function1) {
-                function1.invoke("a4c04ca8-9c0e-4c9c-a889-bd3bf8ea586a");
+                switch (s) {
+                    case DRM_SAMPLE_VIDEO_ID: {
+                        function1.invoke(DRM_SAMPLE_ACCESS_TOKEN);
+                        break;
+                    }
+                    case NON_DRM_SAMPLE_VIDEO_ID: {
+                        function1.invoke(NON_DRM_SAMPLE_ACCESS_TOKEN);
+                        break;
+                    }
+                }
             }
 
             @Override

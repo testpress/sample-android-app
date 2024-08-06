@@ -15,8 +15,8 @@ const val DRM_SAMPLE_VIDEO_ID = "6suEBPy7EG4"
 const val DRM_SAMPLE_ACCESS_TOKEN = "ab70caed-6168-497f-89c1-1e308da2c9aa"
 
 // Sample Non-DRM Video (Replace this params with yours)
-const val NON_DRM_SAMPLE_VIDEO_ID = "ATJfRdHIUC9"
-const val NON_DRM_SAMPLE_ACCESS_TOKEN = "a4c04ca8-9c0e-4c9c-a889-bd3bf8ea586a"
+const val NON_DRM_SAMPLE_VIDEO_ID = "8DjR3FzHy4Z"
+const val NON_DRM_SAMPLE_ACCESS_TOKEN = "0cebd232-3699-4908-81f0-3cc2fa9497f8"
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         val parameters = TpInitParams.Builder()
             .setVideoId(DRM_SAMPLE_VIDEO_ID)
             .setAccessToken(DRM_SAMPLE_ACCESS_TOKEN)
+            .setUserId("testUser")
             .setOfflineLicenseExpireTime(FIFTEEN_DAYS)
             .enableDownloadSupport(true)
             .build()
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         val parameters = TpInitParams.Builder()
             .setVideoId(NON_DRM_SAMPLE_VIDEO_ID)
             .setAccessToken(NON_DRM_SAMPLE_ACCESS_TOKEN)
+            .setUserId("TestUser")
             .enableDownloadSupport(true)
             .build()
         val myIntent = Intent(this, PlayerActivity::class.java)

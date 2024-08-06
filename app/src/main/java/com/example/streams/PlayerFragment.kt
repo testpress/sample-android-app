@@ -7,10 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.tpstream.player.TPStreamPlayerListener
-import com.tpstream.player.TPStreamsSDK
-import com.tpstream.player.TpInitParams
-import com.tpstream.player.TpStreamPlayer
+import com.tpstream.player.*
 import com.tpstream.player.ui.InitializationListener
 import com.tpstream.player.ui.TPStreamPlayerView
 import com.tpstream.player.ui.TpStreamPlayerFragment
@@ -23,7 +20,7 @@ class PlayerFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        TPStreamsSDK.initialize(TPStreamsSDK.Provider.TestPress, ORG_CODE)
+        TPStreamsSDK.initialize(TPStreamsSDK.Provider.TPStreams, ORG_CODE)
     }
 
     override fun onCreateView(
@@ -50,8 +47,10 @@ class PlayerFragment : Fragment() {
 
     fun loadPLayer() {
         val parameters = TpInitParams.Builder()
-            .setVideoId(NON_DRM_SAMPLE_VIDEO_ID)
-            .setAccessToken(NON_DRM_SAMPLE_ACCESS_TOKEN)
+            .setVideoId(DRM_SAMPLE_VIDEO_ID)
+            .setAccessToken(DRM_SAMPLE_ACCESS_TOKEN)
+            .setUserId("testUser")
+            .setOfflineLicenseExpireTime(FIFTEEN_DAYS)
             .setAutoPlay(true)
             .build()
         player.load(parameters)
@@ -62,6 +61,13 @@ class PlayerFragment : Fragment() {
         player.setListener( object : TPStreamPlayerListener {
             override fun onPlaybackStateChanged(playbackState: Int) {
                 Log.d("TAG", "onPlaybackStateChanged: $playbackState")
+            }
+
+            override fun onAccessTokenExpired(videoId: String, callback: (String) -> Unit) {
+                when(videoId){
+                    DRM_SAMPLE_VIDEO_ID -> callback(DRM_SAMPLE_ACCESS_TOKEN)
+                    NON_DRM_SAMPLE_VIDEO_ID -> callback(NON_DRM_SAMPLE_ACCESS_TOKEN)
+                }
             }
 
             override fun onMarkerCallback(timesInSeconds: Long) {

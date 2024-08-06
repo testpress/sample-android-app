@@ -1,5 +1,17 @@
 # Release notes
 
+### 3.0.23 [Aug  06, 2024]
+
+This release corresponds to the 2.0.23
+
+* Fixed issue with renewing offline DRM licenses only if they are expired.
+* Display player error codes instead of custom codes for player errors.
+* Added the option to set `userId` when building `TpInitParams`.
+* Added Sentry log with a custom object.
+* Removed the default implementation of the `onAccessTokenExpired` callback in `TPStreamPlayerListener`.
+* Fixed video playback issues on Android 7.0 or earlier.
+* Code optimization and refactoring.
+
 ### 3.0.22 [Jul  20, 2024]
 
 This release corresponds to the 2.0.22
