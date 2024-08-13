@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.media3.common.C
 import androidx.media3.common.Player.EVENT_IS_PLAYING_CHANGED
 import com.tpstream.player.*
 import com.tpstream.player.constants.PlaybackError
@@ -90,7 +91,24 @@ class PlayerActivity : AppCompatActivity() {
                     Log.d("TAG", "playing changed")
                 }
             }
+
+            override fun onTracksChanged(tracks: Tracks) {
+                val selectedResolution = getSelectedResolution(tracks)
+                Log.d("TAG", "onTracksChanged: $selectedResolution")
+            }
         })
+    }
+
+    private fun getSelectedResolution(tracks: Tracks): List<Int> {
+        val selectedResolution = mutableListOf<Int>()
+        tracks.groups.firstOrNull { it.type == C.TRACK_TYPE_VIDEO }?.let { group ->
+            (0 until group.length).map { trackIndex ->
+                if (group.isTrackSelected(trackIndex)){
+                     selectedResolution.add(group.getTrackFormat(trackIndex).height)
+                }
+            }
+        }
+        return selectedResolution
     }
 
     private fun addWaterMark(){

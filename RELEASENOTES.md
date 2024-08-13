@@ -1,5 +1,12 @@
 # Release notes
 
+### 3.0.24 [Aug  13, 2024]
+
+This release aligns with version 2.0.24 and includes the following updates:
+
+* Playback Initial Resolution: Introduced the ability to set the initial playback resolution when configuring TpInitParams.
+* Code Improvements: Optimized and refactored code for better performance and maintainability.
+
 ### 3.0.23 [Aug  06, 2024]
 
 This release corresponds to the 2.0.23
