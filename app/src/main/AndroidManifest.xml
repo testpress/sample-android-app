@@ -38,6 +38,17 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+        <activity
+            android:name=".VerticalPlayerActivity"
+            android:configChanges="orientation|screenSize|layoutDirection"
+            android:exported="false"
+            android:label="VerticalPlayerActivity"
+            android:theme="@style/Theme.Streams.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".PlayerActivityJava"
             android:configChanges="orientation|screenSize|layoutDirection"

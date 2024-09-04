@@ -18,6 +18,10 @@ const val DRM_SAMPLE_ACCESS_TOKEN = "ab70caed-6168-497f-89c1-1e308da2c9aa"
 const val NON_DRM_SAMPLE_VIDEO_ID = "8DjR3FzHy4Z"
 const val NON_DRM_SAMPLE_ACCESS_TOKEN = "0cebd232-3699-4908-81f0-3cc2fa9497f8"
 
+// Sample Vertical Video (Replace this params with yours)
+const val SAMPLE_VERTICAL_VIDEO_ID = "AzMCkjZRDTg"
+const val SAMPLE_VERTICAL_ACCESS_TOKEN = "a11dd41e-e28b-4ca6-b403-22ee45587d8d"
+
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +52,11 @@ class MainActivity : AppCompatActivity() {
             .build()
         val myIntent = Intent(this, PlayerActivity::class.java)
         myIntent.putExtra(TP_OFFLINE_PARAMS,parameters)
+        startActivity(myIntent)
+    }
+
+    fun sample3(view: View) {
+        val myIntent = Intent(this, VerticalPlayerActivity::class.java)
         startActivity(myIntent)
     }
 
