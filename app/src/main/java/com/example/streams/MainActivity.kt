@@ -1,9 +1,14 @@
 package com.example.streams
 
+import android.Manifest.permission.POST_NOTIFICATIONS
 import android.content.Intent
+import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.tpstream.player.FIFTEEN_DAYS
 import com.tpstream.player.TpInitParams
 
@@ -26,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        askPushNotificationPermission()
     }
 
     fun sample1(view: View) {
@@ -73,5 +79,21 @@ class MainActivity : AppCompatActivity() {
     fun openPlayerActivityJava(view: View) {
         val myIntent = Intent(this, PlayerActivityJava::class.java)
         startActivity(myIntent)
+    }
+
+    private fun askPushNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    POST_NOTIFICATIONS
+                ) != PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(POST_NOTIFICATIONS),
+                    1000
+                )
+            }
+        }
     }
 }
