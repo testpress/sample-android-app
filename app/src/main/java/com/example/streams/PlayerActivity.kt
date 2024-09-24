@@ -35,11 +35,11 @@ class PlayerActivity : AppCompatActivity() {
         pausedAt = sharedPreference.getLong("pausedAt", 0L)
 
         playerFragment = supportFragmentManager.findFragmentById(R.id.tpstream_player_fragment) as TpStreamPlayerFragment
+        playerFragment.enableSecureView()
         playerFragment.setOnInitializationListener(object: InitializationListener {
 
             override fun onInitializationSuccess(player: TpStreamPlayer) {
                 this@PlayerActivity.player = player
-                player.setMaxResolution(560)
                 playerView = playerFragment.tpStreamPlayerView
                 loadPLayer()
                 addPlayerListener()

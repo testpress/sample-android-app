@@ -1,5 +1,15 @@
 # Release notes
 
+### 3.1.0 [Sep  23, 2024]
+
+This release aligns with version 2.1.0 and includes the following updates:
+
+* Added 1.75x playback speed option in the player.
+* Available resolution and playback speed are displayed based on device capabilities.
+* Enabled secure screen for L3 devices during DRM video playback via `TpStreamPlayerFragment.enableSecureView()`.
+* Introduced the option to enable software decoding using `TpStreamPlayerFragment.useSoftwareDecoder()`.
+* Optimized and refactored code for better performance and maintainability.
+
 ### 3.0.24 [Aug  13, 2024]
 
 This release aligns with version 2.0.24 and includes the following updates:
