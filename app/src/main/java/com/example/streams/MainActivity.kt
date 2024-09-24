@@ -16,12 +16,12 @@ import com.tpstream.player.TpInitParams
 const val ORG_CODE = "6eafqn"
 
 // Sample DRM Video (Replace this params with yours)
-const val DRM_SAMPLE_VIDEO_ID = "6suEBPy7EG4"
-const val DRM_SAMPLE_ACCESS_TOKEN = "ab70caed-6168-497f-89c1-1e308da2c9aa"
+const val DRM_SAMPLE_VIDEO_ID = "7RKQZj4gB2T"
+const val DRM_SAMPLE_ACCESS_TOKEN = "d4986429-20e2-4b21-93ae-c70630a37e06"
 
 // Sample Non-DRM Video (Replace this params with yours)
-const val NON_DRM_SAMPLE_VIDEO_ID = "8DjR3FzHy4Z"
-const val NON_DRM_SAMPLE_ACCESS_TOKEN = "0cebd232-3699-4908-81f0-3cc2fa9497f8"
+const val NON_DRM_SAMPLE_VIDEO_ID = "72c9RRHj3M8"
+const val NON_DRM_SAMPLE_ACCESS_TOKEN = "47c686d7-a50b-41f9-b2cd-0660960c357f"
 
 // Sample Vertical Video (Replace this params with yours)
 const val SAMPLE_VERTICAL_VIDEO_ID = "AzMCkjZRDTg"
