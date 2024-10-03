@@ -1,5 +1,13 @@
 # Release notes
 
+### 3.1.1 [Oct  03, 2024]
+
+This release aligns with version 2.1.1 and includes the following updates:
+
+* Resolved incorrect media size display in the download selection sheet.
+* Added validation to prevent crashes during repeated player initialization.
+* Optimized and refactored code for improved performance and maintainability.
+
 ### 3.1.0 [Sep  23, 2024]
 
 This release aligns with version 2.1.0 and includes the following updates:

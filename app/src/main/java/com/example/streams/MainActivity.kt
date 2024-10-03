@@ -10,10 +10,14 @@ import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.tpstream.player.FIFTEEN_DAYS
+import com.tpstream.player.TPStreamsSDK
 import com.tpstream.player.TpInitParams
 
 // organization id (Replace this ORG_CODE with yours)
 const val ORG_CODE = "6eafqn"
+
+// Provider (Replace this with yours)
+val PROVIDER = TPStreamsSDK.Provider.TPStreams
 
 // Sample DRM Video (Replace this params with yours)
 const val DRM_SAMPLE_VIDEO_ID = "7RKQZj4gB2T"
