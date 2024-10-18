@@ -1,5 +1,12 @@
 # Release notes
 
+### 3.1.2 [Oct  18, 2024]
+
+This release aligns with version 2.1.2 and includes the following updates:
+
+* Added support for H.265 video codec.
+* Optimized and refactored code for improved performance and maintainability.
+
 ### 3.1.1 [Oct  03, 2024]
 
 This release aligns with version 2.1.1 and includes the following updates:
