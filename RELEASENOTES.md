@@ -1,5 +1,13 @@
 # Release notes
 
+### 3.1.3 [Feb  07, 2025]
+
+This release aligns with version 2.1.3 and includes the following updates:
+
+* Improved error messages to be more user-friendly.
+* Enabled asynchronous buffer queueing to reduce dropped frames and audio underruns.
+* Optimized and refactored code for improved performance and maintainability.
+
 ### 3.1.2 [Oct  18, 2024]
 
 This release aligns with version 2.1.2 and includes the following updates:
