@@ -1,5 +1,16 @@
 # Release notes
 
+### 3.1.4 [Feb  28, 2025]
+
+This release aligns with version 2.1.4 and includes the following updates:
+
+* Fixed an issue with reauthentication of the access token in `onAccessTokenExpired`.
+* Add deprecated `onDeviceInfoChanged()` in `TPStreamPlayerListener`.
+* Add deprecated `onVideoSizeChanged()` in `TPStreamPlayerListener`.
+* Add deprecated `onPositionDiscontinuity()` in `TPStreamPlayerListener`.
+* Add deprecated `onTimelineChanged()` in `TPStreamPlayerListener`.
+* Optimized and refactored code for improved performance and maintainability.
+
 ### 3.1.3 [Feb  07, 2025]
 
 This release aligns with version 2.1.3 and includes the following updates:
