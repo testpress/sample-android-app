@@ -1,5 +1,15 @@
 # Release notes
 
+### 3.1.5 [Mar  19, 2025]
+
+This release aligns with version 2.1.5 and includes the following updates:
+
+* Updated Sentry DNS value.
+* Improved Player Control view UI.
+* Fixed Night theme issues in the Resolution selection sheet and Download selection sheet.
+* Fixed player detachment when releasing to prevent conflicts and ensure clean reinitialization.
+* Optimized and refactored code for better performance and maintainability.
+
 ### 3.1.4 [Feb  28, 2025]
 
 This release aligns with version 2.1.4 and includes the following updates:
