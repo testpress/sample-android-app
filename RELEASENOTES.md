@@ -1,5 +1,13 @@
 # Release notes
 
+### 3.1.6 [Mar  28, 2025]
+
+This release aligns with version 2.1.6 and includes the following updates:
+
+* Optimized offline DRM license fetching.
+* Fixed an issue with access token reauthentication for offline DRM licenses.
+* Refactored and optimized code for better performance and maintainability.
+
 ### 3.1.5 [Mar  19, 2025]
 
 This release aligns with version 2.1.5 and includes the following updates:
