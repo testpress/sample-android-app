@@ -89,6 +89,11 @@ public class PlayerActivityJava extends AppCompatActivity {
     private void addPlayerListener() {
         player.setListener(new TPStreamPlayerListener() {
             @Override
+            public void onPlaybackSpeedChange(float v) {
+                Log.d(TAG, "onPlaybackSpeedChange: speed"+v);
+            }
+
+            @Override
             public void onAccessTokenExpired(@NonNull String s, @NonNull Function1<? super String, Unit> function1) {
                 switch (s) {
                     case DRM_SAMPLE_VIDEO_ID: {

@@ -88,13 +88,17 @@ class PlayerActivity : AppCompatActivity() {
 
             override fun onEvents(player: TpStreamPlayer?, events: PlayerEvents) {
                 if (events.contains(EVENT_IS_PLAYING_CHANGED)){
-                    Log.d("TAG", "playing changed")
+                    Log.d(TAG, "playing changed")
                 }
             }
 
             override fun onTracksChanged(tracks: Tracks) {
                 val selectedResolution = getSelectedResolution(tracks)
-                Log.d("TAG", "onTracksChanged: $selectedResolution")
+                Log.d(TAG, "onTracksChanged: $selectedResolution")
+            }
+
+            override fun onPlaybackSpeedChange(speed: Float) {
+                Log.d(TAG, "onPlaybackSpeedChange: speed $speed")
             }
         })
     }

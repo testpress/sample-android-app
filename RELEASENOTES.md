@@ -1,5 +1,12 @@
 # Release notes
 
+### 3.1.7 [Apr  01, 2025]
+
+This release aligns with version 2.1.7 and includes the following updates:
+
+* Added `onPlaybackSpeedChange` callback in `TPStreamPlayerListener`.
+* Refactored and optimized code for better performance and maintainability.
+
 ### 3.1.6 [Mar  28, 2025]
 
 This release aligns with version 2.1.6 and includes the following updates:
