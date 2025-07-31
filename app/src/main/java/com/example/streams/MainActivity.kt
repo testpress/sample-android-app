@@ -14,18 +14,18 @@ import com.tpstream.player.TPStreamsSDK
 import com.tpstream.player.TpInitParams
 
 // organization id (Replace this ORG_CODE with yours)
-const val ORG_CODE = "6eafqn"
+const val ORG_CODE = "9q94nm"
 
 // Provider (Replace this with yours)
 val PROVIDER = TPStreamsSDK.Provider.TPStreams
 
 // Sample DRM Video (Replace this params with yours)
-const val DRM_SAMPLE_VIDEO_ID = "7RKQZj4gB2T"
-const val DRM_SAMPLE_ACCESS_TOKEN = "d4986429-20e2-4b21-93ae-c70630a37e06"
+const val DRM_SAMPLE_VIDEO_ID = "37ASbsmecu4"
+const val DRM_SAMPLE_ACCESS_TOKEN = "79fde9c0-fd70-4f72-855f-a1c4306cc4ca"
 
 // Sample Non-DRM Video (Replace this params with yours)
-const val NON_DRM_SAMPLE_VIDEO_ID = "72c9RRHj3M8"
-const val NON_DRM_SAMPLE_ACCESS_TOKEN = "47c686d7-a50b-41f9-b2cd-0660960c357f"
+const val NON_DRM_SAMPLE_VIDEO_ID = "ACGhHuD7DEa"
+const val NON_DRM_SAMPLE_ACCESS_TOKEN = "5bea276d-7882-4f8f-951a-c628622817e0"
 
 // Sample Vertical Video (Replace this params with yours)
 const val SAMPLE_VERTICAL_VIDEO_ID = "AzMCkjZRDTg"

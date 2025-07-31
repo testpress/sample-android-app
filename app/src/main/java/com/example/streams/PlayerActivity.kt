@@ -2,13 +2,14 @@ package com.example.streams
 
 import android.content.Context
 import android.content.pm.ActivityInfo
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.Toast
-import androidx.media3.common.C
-import androidx.media3.common.Player.EVENT_IS_PLAYING_CHANGED
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import com.tpstream.player.*
 import com.tpstream.player.constants.PlaybackError
 import com.tpstream.player.ui.InitializationListener
@@ -25,6 +26,11 @@ class PlayerActivity : AppCompatActivity() {
     private var pausedAt: Long = 0L
     val TAG = "PlayerActivity"
 
+    private lateinit var originalParent: ViewGroup
+    private var originalIndex = -1
+    private var originalRequestedOrientation: Int = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+    private var isFullScreen = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
@@ -35,20 +41,27 @@ class PlayerActivity : AppCompatActivity() {
         pausedAt = sharedPreference.getLong("pausedAt", 0L)
 
         playerFragment = supportFragmentManager.findFragmentById(R.id.tpstream_player_fragment) as TpStreamPlayerFragment
-        playerFragment.enableSecureView()
+        playerFragment.useSoftwareDecoder()
         playerFragment.setOnInitializationListener(object: InitializationListener {
 
             override fun onInitializationSuccess(player: TpStreamPlayer) {
                 this@PlayerActivity.player = player
                 playerView = playerFragment.tpStreamPlayerView
+                setupFullscreen()
                 loadPLayer()
                 addPlayerListener()
-                addWaterMark()
-                addMarker()
             }
         });
-        playerFragment.enableAutoFullScreenOnRotate()
-        playerFragment.setPreferredFullscreenExitOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
+    }
+
+    fun setupFullscreen() {
+        playerView.findViewById<ImageButton>(com.tpstream.player.R.id.fullscreen).setOnClickListener {
+            if(isFullScreen) {
+                exitFullScreen()
+            } else {
+                showFullScreen()
+            }
+        }
     }
 
     fun loadPLayer(){
@@ -78,49 +91,11 @@ class PlayerActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onMarkerCallback(timesInSeconds: Long) {
-                Toast.makeText(this@PlayerActivity,"Time $timesInSeconds",Toast.LENGTH_SHORT).show()
-            }
-
             override fun onPlayerError(playbackError: PlaybackError) {
                 Toast.makeText(this@PlayerActivity,playbackError.name,Toast.LENGTH_SHORT).show()
             }
 
-            override fun onEvents(player: TpStreamPlayer?, events: PlayerEvents) {
-                if (events.contains(EVENT_IS_PLAYING_CHANGED)){
-                    Log.d(TAG, "playing changed")
-                }
-            }
-
-            override fun onTracksChanged(tracks: Tracks) {
-                val selectedResolution = getSelectedResolution(tracks)
-                Log.d(TAG, "onTracksChanged: $selectedResolution")
-            }
-
-            override fun onPlaybackSpeedChange(speed: Float) {
-                Log.d(TAG, "onPlaybackSpeedChange: speed $speed")
-            }
         })
-    }
-
-    private fun getSelectedResolution(tracks: Tracks): List<Int> {
-        val selectedResolution = mutableListOf<Int>()
-        tracks.groups.firstOrNull { it.type == C.TRACK_TYPE_VIDEO }?.let { group ->
-            (0 until group.length).map { trackIndex ->
-                if (group.isTrackSelected(trackIndex)){
-                     selectedResolution.add(group.getTrackFormat(trackIndex).height)
-                }
-            }
-        }
-        return selectedResolution
-    }
-
-    private fun addWaterMark(){
-        playerView.enableWaterMark("Sample App",Color.RED)
-    }
-
-    private fun addMarker(){
-        playerView.setMarkers(longArrayOf(60,120,180,240,300),Color.YELLOW, deleteAfterDelivery = false)
     }
 
     override fun onBackPressed() {
@@ -133,5 +108,51 @@ class PlayerActivity : AppCompatActivity() {
                 apply()
             }
         }
+    }
+
+    fun showFullScreen() {
+        if (isFullScreen) return
+
+        // Save parent info
+        originalParent = playerView.parent as ViewGroup
+        originalIndex = originalParent.indexOfChild(playerView)
+
+        // Detach and add to root decor view
+        originalParent.removeView(playerView)
+        val root = window.decorView.findViewById<ViewGroup>(android.R.id.content)
+        root.addView(
+            playerView,
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
+
+        // Hide system bars
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        val controller = WindowCompat.getInsetsController(window, window.decorView)
+        controller?.hide(WindowInsetsCompat.Type.systemBars())
+
+        // Landscape
+        originalRequestedOrientation = requestedOrientation
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+
+        isFullScreen = true
+    }
+
+    fun exitFullScreen() {
+        if (!isFullScreen) return
+
+        // Detach from root and put back
+        val root = window.decorView.findViewById<ViewGroup>(android.R.id.content)
+        root.removeView(playerView)
+        originalParent.addView(playerView, originalIndex)
+
+        // Show system bars
+        val controller = WindowCompat.getInsetsController(window, window.decorView)
+        controller?.show(WindowInsetsCompat.Type.systemBars())
+
+        // Restore orientation
+        requestedOrientation = originalRequestedOrientation
+
+        isFullScreen = false
     }
 }
