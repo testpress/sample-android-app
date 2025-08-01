@@ -3,10 +3,12 @@ package com.example.streams
 import android.Manifest.permission.POST_NOTIFICATIONS
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.media.MediaCodecList
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.tpstream.player.FIFTEEN_DAYS
@@ -36,6 +38,44 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         askPushNotificationPermission()
+        findViewById<TextView>(R.id.text_view).text = getAVCCodecDetails()
+    }
+
+    private fun getAVCCodecDetails(): String {
+        val codecInfos = MediaCodecList(MediaCodecList.ALL_CODECS).codecInfos
+        val sb = StringBuilder()
+
+        for (codecInfo in codecInfos) {
+            if (!codecInfo.isEncoder) {
+                val types = codecInfo.supportedTypes
+                for (type in types) {
+                    if (type.equals("video/avc", ignoreCase = true)) {
+                        sb.appendLine("Codec Name: ${codecInfo.name}")
+                        val capabilities = codecInfo.getCapabilitiesForType(type)
+                        val videoCaps = capabilities.videoCapabilities
+
+                        // Resolution
+                        sb.appendLine("Supported Widths: ${videoCaps.supportedWidths}")
+                        sb.appendLine("Supported Heights: ${videoCaps.supportedHeights}")
+                        sb.appendLine("Width Alignment: ${videoCaps.widthAlignment}")
+                        sb.appendLine("Height Alignment: ${videoCaps.heightAlignment}")
+
+                        // Frame rate
+                        sb.appendLine("Supported Frame Rates: ${videoCaps.supportedFrameRates}")
+
+                        // Profile/Level as integers
+                        val profileLevels = capabilities.profileLevels
+                        for (pl in profileLevels) {
+                            sb.appendLine("Profile: ${pl.profile}, Level: ${pl.level}")
+                        }
+
+                        sb.appendLine("--------")
+                    }
+                }
+            }
+        }
+
+        return sb.toString()
     }
 
     fun sample1(view: View) {
