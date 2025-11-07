@@ -264,12 +264,13 @@ class CustomTpStreamPlayerFragment : TpStreamPlayerFragment() {
 
     private fun registerBackHandler(activity: AppCompatActivity) {
         if (activity is ComponentActivity) {
-            backCallback = object : OnBackPressedCallback(true) {
+            val callback = object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     if (isFullscreen) exitFullScreen()
                 }
             }
-            activity.onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback!!)
+            activity.onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+            backCallback = callback
         }
     }
 
