@@ -38,22 +38,20 @@ class CustomTpStreamPlayerFragment : TpStreamPlayerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         
+        view.post {
+            if (isAdded) {
+                updateFullscreenButton(isFullscreen)
+            }
+        }
+        
         savedInstanceState?.let {
-            val wasFullscreen = it.getBoolean(KEY_IS_FULLSCREEN, false)
-            originalOrientation = it.getInt(KEY_ORIGINAL_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-            
-            if (wasFullscreen) {
+            if (it.getBoolean(KEY_IS_FULLSCREEN, false)) {
+                originalOrientation = it.getInt(KEY_ORIGINAL_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                 view.post {
-                    val activity = requireActivity() as? AppCompatActivity ?: return@post
-                    isFullscreen = true
-                    storeOriginalState(activity)
-                    prepareWindowForFullscreen(activity)
-                    resizeToFullscreen()
-                    applyWindowInsets()
-                    hideSystemUI(activity)
-                    updateFullscreenButton(true)
-                    registerBackHandler(activity)
-                    notifyFullscreenChanged(true)
+                    if (isAdded && view.windowToken != null) {
+                        val activity = requireActivity() as? AppCompatActivity ?: return@post
+                        enterFullscreen(activity, restoreState = true)
+                    }
                 }
             }
         }
@@ -66,21 +64,47 @@ class CustomTpStreamPlayerFragment : TpStreamPlayerFragment() {
     }
     
     override fun onDestroyView() {
-        ViewCompat.setOnApplyWindowInsetsListener(container, null)
+        try {
+            ViewCompat.setOnApplyWindowInsetsListener(playerContainer, null)
+        } catch (e: Exception) {
+            // View might already be destroyed
+        }
         clearBackHandler()
         super.onDestroyView()
     }
 
     override fun showFullScreen() {
         val activity = requireActivity() as? AppCompatActivity ?: return
-        if (isFullscreen) return
+        if (isFullscreen || !isAdded) return
+        enterFullscreen(activity, restoreState = false)
+    }
+
+    override fun exitFullScreen() {
+        val activity = requireActivity() as? AppCompatActivity ?: return
+        if (!isFullscreen || !isAdded) return
         
-        storeOriginalState(activity)
-        prepareWindowForFullscreen(activity)
+        ViewCompat.setOnApplyWindowInsetsListener(playerContainer, null)
+        isFullscreen = false
+        
+        showSystemUI(activity)
+        restoreState(activity)
+        updateFullscreenButton(false)
+        clearBackHandler()
+        notifyFullscreenChanged(false)
+    }
+
+    private fun enterFullscreen(activity: AppCompatActivity, restoreState: Boolean) {
+        if (!restoreState) {
+            storeState(activity)
+        }
+        
+        prepareWindow(activity)
         resizeToFullscreen()
+        applyInsetsPadding()
+        setupWindowInsets()
         
-        container.post {
-            applyWindowInsets()
+        playerContainer.post {
+            if (!isAdded) return@post
             hideSystemUI(activity)
             switchToLandscape(activity)
             updateFullscreenButton(true)
@@ -90,97 +114,73 @@ class CustomTpStreamPlayerFragment : TpStreamPlayerFragment() {
         }
     }
 
-    override fun exitFullScreen() {
-        val activity = requireActivity() as? AppCompatActivity ?: return
-        if (!isFullscreen) return
-        
-        ViewCompat.setOnApplyWindowInsetsListener(container, null)
-        showSystemUI(activity)
-        restoreWindowBackground(activity)
-        restoreOriginalState()
-        restoreOrientation(activity)
-        updateFullscreenButton(false)
-        clearBackHandler()
-        notifyFullscreenChanged(false)
-        isFullscreen = false
-    }
-
-    private val container: ViewGroup
-        get() = playerContainer
-
-    private fun storeOriginalState(activity: AppCompatActivity) {
+    private fun storeState(activity: AppCompatActivity) {
         if (originalContainerParams != null) return
         
-        originalContainerParams = FrameLayout.LayoutParams(container.layoutParams)
+        originalContainerParams = FrameLayout.LayoutParams(playerContainer.layoutParams)
         originalPlayerViewParams = FrameLayout.LayoutParams(tpStreamPlayerView.layoutParams)
-        originalContainerBackground = container.background
+        originalContainerBackground = playerContainer.background
         originalWindowBackground = activity.window.statusBarColor
         originalContainerPadding = intArrayOf(
-            container.paddingLeft,
-            container.paddingTop,
-            container.paddingRight,
-            container.paddingBottom
+            playerContainer.paddingLeft,
+            playerContainer.paddingTop,
+            playerContainer.paddingRight,
+            playerContainer.paddingBottom
         )
     }
 
-    private fun resizeToFullscreen() {
-        setFullscreenSize(container)
-        setFullscreenSize(tpStreamPlayerView)
-        container.setBackgroundColor(Color.BLACK)
-        container.bringToFront()
+    private fun restoreState(activity: AppCompatActivity) {
+        originalContainerParams?.let { playerContainer.layoutParams = it }
+        originalPlayerViewParams?.let { tpStreamPlayerView.layoutParams = it }
+        originalContainerBackground?.let { playerContainer.background = it }
+        originalWindowBackground?.let { activity.window.statusBarColor = it }
+        originalContainerPadding?.let {
+            playerContainer.setPadding(it[0], it[1], it[2], it[3])
+        }
+        
+        activity.requestedOrientation = preferredFullscreenExitOrientationValue
+        playerContainer.requestLayout()
     }
 
-    private fun setFullscreenSize(view: View) {
-        view.layoutParams.apply {
+    private fun resizeToFullscreen() {
+        playerContainer.layoutParams.apply {
             width = ViewGroup.LayoutParams.MATCH_PARENT
             height = ViewGroup.LayoutParams.MATCH_PARENT
         }
-    }
-
-    private fun restoreOriginalState() {
-        originalContainerParams?.let { container.layoutParams = it }
-        originalPlayerViewParams?.let { tpStreamPlayerView.layoutParams = it }
-        container.background = originalContainerBackground
-        
-        originalContainerPadding?.let {
-            container.setPadding(it[0], it[1], it[2], it[3])
+        tpStreamPlayerView.layoutParams.apply {
+            width = ViewGroup.LayoutParams.MATCH_PARENT
+            height = ViewGroup.LayoutParams.MATCH_PARENT
         }
-        
-        container.requestLayout()
-        tpStreamPlayerView.requestLayout()
+        playerContainer.setBackgroundColor(Color.BLACK)
+        playerContainer.bringToFront()
     }
 
-    private fun applyWindowInsets() {
-        var maxBottomInset = 0
+    private fun applyInsetsPadding() {
+        val insets = ViewCompat.getRootWindowInsets(playerContainer)
+        val bottomPadding = insets?.getInsetsIgnoringVisibility(WindowInsetsCompat.Type.systemBars())?.bottom
+            ?: getNavigationBarHeight()
         
-        ViewCompat.setOnApplyWindowInsetsListener(container) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+        playerContainer.setPadding(0, 0, 0, bottomPadding)
+        playerContainer.clipToPadding = true
+    }
+
+    private fun setupWindowInsets() {
+        ViewCompat.setOnApplyWindowInsetsListener(playerContainer) { view, insets ->
             val displayInsets = insets.getInsetsIgnoringVisibility(WindowInsetsCompat.Type.systemBars())
-            
-            if (displayInsets.bottom > maxBottomInset) {
-                maxBottomInset = displayInsets.bottom
-            }
-            
-            val bottomPadding = maxOf(displayInsets.bottom, maxBottomInset)
-            
-            view.setPadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                bottomPadding
-            )
-            
-            if (view is ViewGroup) {
-                view.clipToPadding = true
-                view.clipChildren = true
-            }
-            
+            view.setPadding(0, 0, 0, displayInsets.bottom)
+            (view as? ViewGroup)?.clipToPadding = true
             WindowInsetsCompat.CONSUMED
         }
-        ViewCompat.requestApplyInsets(container)
+        ViewCompat.requestApplyInsets(playerContainer)
     }
 
-    private fun prepareWindowForFullscreen(activity: AppCompatActivity) {
+    private fun getNavigationBarHeight(): Int {
+        val resources = playerContainer.resources
+        val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
+        return if (resourceId > 0) resources.getDimensionPixelSize(resourceId) else 0
+    }
+
+    private fun prepareWindow(activity: AppCompatActivity) {
         val window = activity.window
         window.statusBarColor = Color.BLACK
         window.navigationBarColor = Color.BLACK
@@ -232,34 +232,32 @@ class CustomTpStreamPlayerFragment : TpStreamPlayerFragment() {
         }
         activity.supportActionBar?.show()
     }
-    
-    private fun restoreWindowBackground(activity: AppCompatActivity) {
-        originalWindowBackground?.let { activity.window.statusBarColor = it }
-    }
 
     private fun switchToLandscape(activity: AppCompatActivity) {
         originalOrientation = activity.requestedOrientation
         activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
     }
 
-    private fun restoreOrientation(activity: AppCompatActivity) {
-        activity.requestedOrientation = preferredFullscreenExitOrientationValue
-    }
-
     private fun updateFullscreenButton(isFullscreen: Boolean) {
+        if (!isAdded) return
+        
         val iconRes = if (isFullscreen) {
             R.drawable.ic_baseline_fullscreen_exit_24
         } else {
             R.drawable.ic_baseline_fullscreen_24
         }
         
-        // Note: This depends on the TPStream SDK's internal resource ID.
-        // If the SDK changes this ID in a future update, this will silently fail.
-        // Consider requesting a public API from the SDK maintainers for updating the button icon.
         val fullscreenButton = tpStreamPlayerView.findViewById<ImageButton>(R.id.fullscreen)
-        fullscreenButton?.setImageDrawable(
-            ContextCompat.getDrawable(requireContext(), iconRes)
-        )
+        fullscreenButton?.apply {
+            setImageDrawable(ContextCompat.getDrawable(requireContext(), iconRes))
+            setOnClickListener {
+                if (this@CustomTpStreamPlayerFragment.isFullscreen) {
+                    exitFullScreen()
+                } else {
+                    showFullScreen()
+                }
+            }
+        }
     }
 
     private fun registerBackHandler(activity: AppCompatActivity) {
