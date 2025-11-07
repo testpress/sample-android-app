@@ -46,7 +46,7 @@ class CustomTpStreamPlayerFragment : TpStreamPlayerFragment() {
                 view.post {
                     val activity = requireActivity() as? AppCompatActivity ?: return@post
                     isFullscreen = true
-                    storeOriginalState()
+                    storeOriginalState(activity)
                     prepareWindowForFullscreen(activity)
                     resizeToFullscreen()
                     applyWindowInsets()
@@ -64,12 +64,18 @@ class CustomTpStreamPlayerFragment : TpStreamPlayerFragment() {
         outState.putBoolean(KEY_IS_FULLSCREEN, isFullscreen)
         outState.putInt(KEY_ORIGINAL_ORIENTATION, originalOrientation)
     }
+    
+    override fun onDestroyView() {
+        ViewCompat.setOnApplyWindowInsetsListener(container, null)
+        clearBackHandler()
+        super.onDestroyView()
+    }
 
     override fun showFullScreen() {
         val activity = requireActivity() as? AppCompatActivity ?: return
         if (isFullscreen) return
         
-        storeOriginalState()
+        storeOriginalState(activity)
         prepareWindowForFullscreen(activity)
         resizeToFullscreen()
         
@@ -102,13 +108,13 @@ class CustomTpStreamPlayerFragment : TpStreamPlayerFragment() {
     private val container: ViewGroup
         get() = playerContainer
 
-    private fun storeOriginalState() {
+    private fun storeOriginalState(activity: AppCompatActivity) {
         if (originalContainerParams != null) return
         
         originalContainerParams = FrameLayout.LayoutParams(container.layoutParams)
         originalPlayerViewParams = FrameLayout.LayoutParams(tpStreamPlayerView.layoutParams)
         originalContainerBackground = container.background
-        originalWindowBackground = requireActivity().window.statusBarColor
+        originalWindowBackground = activity.window.statusBarColor
         originalContainerPadding = intArrayOf(
             container.paddingLeft,
             container.paddingTop,
@@ -138,7 +144,7 @@ class CustomTpStreamPlayerFragment : TpStreamPlayerFragment() {
         
         originalContainerPadding?.let {
             container.setPadding(it[0], it[1], it[2], it[3])
-        } ?: container.setPadding(0, 0, 0, 0)
+        }
         
         container.requestLayout()
         tpStreamPlayerView.requestLayout()
@@ -246,7 +252,12 @@ class CustomTpStreamPlayerFragment : TpStreamPlayerFragment() {
         } else {
             R.drawable.ic_baseline_fullscreen_24
         }
-        tpStreamPlayerView.findViewById<ImageButton>(R.id.fullscreen)?.setImageDrawable(
+        
+        // Note: This depends on the TPStream SDK's internal resource ID.
+        // If the SDK changes this ID in a future update, this will silently fail.
+        // Consider requesting a public API from the SDK maintainers for updating the button icon.
+        val fullscreenButton = tpStreamPlayerView.findViewById<ImageButton>(R.id.fullscreen)
+        fullscreenButton?.setImageDrawable(
             ContextCompat.getDrawable(requireContext(), iconRes)
         )
     }
