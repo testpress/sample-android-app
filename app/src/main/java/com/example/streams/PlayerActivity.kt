@@ -18,7 +18,7 @@ import com.tpstream.player.ui.TpStreamPlayerFragment
 class PlayerActivity : AppCompatActivity() {
     lateinit var player: TpStreamPlayer
     lateinit var playerView: TPStreamPlayerView
-    lateinit var playerFragment: TpStreamPlayerFragment
+    lateinit var playerFragment: CustomTpStreamPlayerFragment
     private val accessToken = "c381512b-7337-4d8e-a8cf-880f4f08fd08"
     private val videoId = "C3XLe1CCcOq"
     private var parameters : TpInitParams? = null
@@ -34,7 +34,7 @@ class PlayerActivity : AppCompatActivity() {
         val sharedPreference =  getSharedPreferences("player", Context.MODE_PRIVATE)
         pausedAt = sharedPreference.getLong("pausedAt", 0L)
 
-        playerFragment = supportFragmentManager.findFragmentById(R.id.tpstream_player_fragment) as TpStreamPlayerFragment
+        playerFragment = supportFragmentManager.findFragmentById(R.id.tpstream_player_fragment) as CustomTpStreamPlayerFragment
         playerFragment.enableSecureView()
         playerFragment.setOnInitializationListener(object: InitializationListener {
 
@@ -48,7 +48,7 @@ class PlayerActivity : AppCompatActivity() {
             }
         });
         playerFragment.enableAutoFullScreenOnRotate()
-        playerFragment.setPreferredFullscreenExitOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
+        playerFragment.setPreferredFullscreenExitOrientation(ActivityInfo.SCREEN_ORIENTATION_USER)
     }
 
     fun loadPLayer(){
