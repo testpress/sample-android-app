@@ -3,6 +3,7 @@ package com.example.streams
 import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.os.Build
+import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -28,6 +29,41 @@ class CustomTpStreamPlayerFragment : TpStreamPlayerFragment() {
     private var originalContainerBackground: android.graphics.drawable.Drawable? = null
     private var originalWindowBackground: Int? = null
     private var originalContainerPadding: IntArray? = null
+    
+    companion object {
+        private const val KEY_IS_FULLSCREEN = "key_is_fullscreen"
+        private const val KEY_ORIGINAL_ORIENTATION = "key_original_orientation"
+    }
+    
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        
+        savedInstanceState?.let {
+            val wasFullscreen = it.getBoolean(KEY_IS_FULLSCREEN, false)
+            originalOrientation = it.getInt(KEY_ORIGINAL_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+            
+            if (wasFullscreen) {
+                view.post {
+                    val activity = requireActivity() as? AppCompatActivity ?: return@post
+                    isFullscreen = true
+                    storeOriginalState()
+                    prepareWindowForFullscreen(activity)
+                    resizeToFullscreen()
+                    applyWindowInsets()
+                    hideSystemUI(activity)
+                    updateFullscreenButton(true)
+                    registerBackHandler(activity)
+                    notifyFullscreenChanged(true)
+                }
+            }
+        }
+    }
+    
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(KEY_IS_FULLSCREEN, isFullscreen)
+        outState.putInt(KEY_ORIGINAL_ORIENTATION, originalOrientation)
+    }
 
     override fun showFullScreen() {
         val activity = requireActivity() as? AppCompatActivity ?: return
