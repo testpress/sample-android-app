@@ -17,12 +17,12 @@ repositories {
 // Use the latest version available for integration.
 
 // To integrate the TPStreams player
-implementation 'com.tpstreams.player:player:3.1.7'
+implementation 'com.tpstreams.player:player:3.1.9'
 
 // If you're already using Exo Player in youe project, you can still integrate TPStreams Player with below implimentation.
 
 // To integrate the TPStreams player
-implementation 'com.tpstreams.player:player:2.1.7'
+implementation 'com.tpstreams.player:player:2.1.9'
 ```
 
 ### Enable Java 8 support
