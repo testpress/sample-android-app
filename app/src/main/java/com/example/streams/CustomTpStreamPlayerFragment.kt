@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
@@ -30,9 +31,12 @@ class CustomTpStreamPlayerFragment : TpStreamPlayerFragment() {
     private var originalContainerBackground: android.graphics.drawable.Drawable? = null
     private var originalWindowBackground: Int? = null
     private var originalContainerPadding: IntArray? = null
-    private var originalFragmentContainerParams: ViewGroup.LayoutParams? = null
     private var fragmentContainerView: View? = null
-    private var parentConstraintLayout: ViewGroup? = null
+    private var originalFragmentContainerParams: ConstraintLayout.LayoutParams? = null
+    private var parentConstraintLayout: ConstraintLayout? = null
+    private var originalParentConstraintLayoutParams: LinearLayout.LayoutParams? = null
+    private var scrollView: View? = null
+    private var originalScrollViewVisibility: Int = View.VISIBLE
     
     companion object {
         private const val KEY_IS_FULLSCREEN = "key_is_fullscreen"
@@ -123,14 +127,31 @@ class CustomTpStreamPlayerFragment : TpStreamPlayerFragment() {
         
         // Store fragment container view (FragmentContainerView in activity)
         fragmentContainerView = view?.parent as? View
-        parentConstraintLayout = fragmentContainerView?.parent as? ViewGroup
+        parentConstraintLayout = fragmentContainerView?.parent as? ConstraintLayout
         originalFragmentContainerParams = fragmentContainerView?.layoutParams?.let {
             if (it is ConstraintLayout.LayoutParams) {
                 ConstraintLayout.LayoutParams(it)
             } else {
-                ViewGroup.MarginLayoutParams(it)
+                null
             }
         }
+        originalParentConstraintLayoutParams = parentConstraintLayout?.layoutParams?.let {
+            if (it is LinearLayout.LayoutParams) {
+                LinearLayout.LayoutParams(it)
+            } else {
+                null
+            }
+        }
+        
+        // Find and store ScrollView - it's a sibling of the ConstraintLayout in the LinearLayout
+        parentConstraintLayout?.parent?.let { parent ->
+            if (parent is ViewGroup) {
+                scrollView = (0 until parent.childCount).mapNotNull { i ->
+                    parent.getChildAt(i)
+                }.find { it is android.widget.ScrollView }
+            }
+        }
+        originalScrollViewVisibility = scrollView?.visibility ?: View.VISIBLE
         
         originalContainerParams = FrameLayout.LayoutParams(playerContainer.layoutParams)
         originalPlayerViewParams = FrameLayout.LayoutParams(tpStreamPlayerView.layoutParams)
@@ -145,23 +166,22 @@ class CustomTpStreamPlayerFragment : TpStreamPlayerFragment() {
     }
 
     private fun restoreState(activity: AppCompatActivity) {
-        // Move fragment container back to original parent
+        // Restore fragment container constraints
         fragmentContainerView?.let { container ->
-            val rootView = activity.findViewById<ViewGroup>(android.R.id.content)
-            if (container.parent == rootView) {
-                rootView.removeView(container)
-            }
-            
-            // Restore original layout params - the stored params already have all constraints
             originalFragmentContainerParams?.let { params ->
                 container.layoutParams = params
             }
-            
-            // Add back to ConstraintLayout if not already there
-            if (container.parent != parentConstraintLayout && parentConstraintLayout != null) {
-                parentConstraintLayout?.addView(container)
+        }
+        
+        // Restore parent ConstraintLayout params
+        parentConstraintLayout?.let { layout ->
+            originalParentConstraintLayoutParams?.let { params ->
+                layout.layoutParams = params
             }
         }
+        
+        // Show ScrollView
+        scrollView?.visibility = originalScrollViewVisibility
         
         originalContainerParams?.let { playerContainer.layoutParams = it }
         originalPlayerViewParams?.let { tpStreamPlayerView.layoutParams = it }
@@ -173,31 +193,57 @@ class CustomTpStreamPlayerFragment : TpStreamPlayerFragment() {
         
         activity.requestedOrientation = preferredFullscreenExitOrientationValue
         
-        // Force layout update after a short delay to ensure view hierarchy is ready
-        fragmentContainerView?.post {
-            fragmentContainerView?.visibility = View.VISIBLE
-            fragmentContainerView?.requestLayout()
-            parentConstraintLayout?.requestLayout()
-            playerContainer.requestLayout()
+        // Force layout update
+        fragmentContainerView?.requestLayout()
+        parentConstraintLayout?.requestLayout()
+        playerContainer.requestLayout()
+        
+        // Clear stored state after layout completes so it gets re-stored fresh on next fullscreen entry
+        view?.post {
+            clearStoredState()
         }
+    }
+    
+    private fun clearStoredState() {
+        originalContainerParams = null
+        originalPlayerViewParams = null
+        originalContainerBackground = null
+        originalWindowBackground = null
+        originalContainerPadding = null
+        originalFragmentContainerParams = null
+        originalParentConstraintLayoutParams = null
+        fragmentContainerView = null
+        parentConstraintLayout = null
+        scrollView = null
+        originalScrollViewVisibility = View.VISIBLE
     }
 
     private fun resizeToFullscreen() {
-        // Remove constraints from FragmentContainerView to allow fullscreen
-        // First, remove it from ConstraintLayout and add to activity root
-        val activity = requireActivity() as? AppCompatActivity ?: return
-        val rootView = activity.findViewById<ViewGroup>(android.R.id.content)
-        
+        // Modify fragment container constraints to remove max width and make it fullscreen
         fragmentContainerView?.let { container ->
-            parentConstraintLayout?.removeView(container)
-            
-            // Set to match parent and add to root
-            container.layoutParams = ViewGroup.MarginLayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-            rootView.addView(container)
-            container.bringToFront()
+            val params = container.layoutParams
+            if (params is ConstraintLayout.LayoutParams) {
+                // Remove max width constraint
+                params.matchConstraintMaxWidth = 0
+                // Set width to match parent
+                params.width = ViewGroup.LayoutParams.MATCH_PARENT
+                params.height = ViewGroup.LayoutParams.MATCH_PARENT
+                // Remove dimension ratio constraint for fullscreen
+                params.dimensionRatio = null
+                container.layoutParams = params
+            }
+        }
+        
+        // Hide ScrollView
+        scrollView?.visibility = View.GONE
+        
+        // Also make parent ConstraintLayout fullscreen
+        parentConstraintLayout?.layoutParams?.let { params ->
+            if (params is LinearLayout.LayoutParams) {
+                params.width = ViewGroup.LayoutParams.MATCH_PARENT
+                params.height = ViewGroup.LayoutParams.MATCH_PARENT
+                parentConstraintLayout?.layoutParams = params
+            }
         }
         
         playerContainer.layoutParams.apply {
